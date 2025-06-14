@@ -2,12 +2,7 @@ import streamlit as st
 import pickle
 import numpy as np
 import pandas as pd
-import urllib.request
 from PIL import Image
-import platform
-import sklearn
-import xgboost
-import joblib
 
 # ------------------ Page Configuration ------------------
 st.set_page_config(page_title="Timelytics", page_icon=":pencil:", layout="wide")
@@ -16,25 +11,12 @@ st.set_page_config(page_title="Timelytics", page_icon=":pencil:", layout="wide")
 st.title("Timelytics: Optimize your supply chain with advanced forecasting techniques.")
 
 st.caption(
-    "Timelytics is an ensemble model that utilizes XGBoost, Random Forests, and SVM to accurately forecast Order to Delivery (OTD) times. It helps businesses reduce lead times, identify bottlenecks, and improve supply chain efficiency."
+    "Timelytics is an ensemble model that utilizes three powerful machine learning algorithms - XGBoost, Random Forests, and Support Vector Machines (SVM) - to accurately forecast Order to Delivery (OTD) times. By combining the strengths of these three algorithms, Timelytics provides a robust and reliable prediction of OTD times, helping businesses to optimize their supply chain operations."
 )
 
-# ------------------ Library Version Info ------------------
-st.subheader("📦 Environment Info")
-st.code(f"""
-Python version: {platform.python_version()}
-numpy: {np.__version__}
-pandas: {pd.__version__}
-scikit-learn: {sklearn.__version__}
-xgboost: {xgboost.__version__}
-joblib: {joblib.__version__}
-streamlit: {st.__version__}
-Pillow (PIL): {Image.__version__}
-""", language="bash")
-
-# Optional version warning
-if sklearn.__version__ != "1.5.1":
-    st.warning(f"⚠️ Model was trained using scikit-learn 1.5.1, but you are using {sklearn.__version__}. Unexpected behavior may occur.")
+st.caption(
+    "With Timelytics, businesses can identify potential bottlenecks and delays in their supply chain and take proactive measures to address them, reducing lead times and improving delivery times. The model utilizes historical data on order processing times, production lead times, shipping times, and other relevant variables to generate accurate forecasts of OTD times. These forecasts can be used to optimize inventory management, improve customer service, and increase overall efficiency in the supply chain."
+)
 
 # ------------------ Load Pickle Model ------------------
 @st.cache_resource
@@ -42,10 +24,8 @@ def load_model():
     return pickle.load(open(modelfile, "rb"))
 
 modelfile = "voting_model.pkl"
-st.write(f"Trying to load model from: `{modelfile}`")
 voting_model = load_model()
-st.success("✅ Model loaded successfully using pickle!")
-st.write(f"Model type: `{type(voting_model)}`")
+st.success("✅ Model loaded successfully!")
 
 # ------------------ Prediction Function ------------------
 def waitime_predictor(
